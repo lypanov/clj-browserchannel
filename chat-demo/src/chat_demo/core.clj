@@ -36,9 +36,10 @@
                                              session-id
                                              :map
                                              (fn [map]
-                                               (println "session " session-id " sent " map)
+                                               (println "session " session-id " sent")
                                                (doseq [client-id @clients]
                                                  (browserchannel/send-map client-id map))))
+                                           (println "session " session-id " connected")
                                            (swap! clients conj session-id)
                                            (doseq [client-id @clients]
                                              (browserchannel/send-map client-id {"msg" (str "client " session-id " connected")})))})))
@@ -50,5 +51,5 @@
                    (fn [ch msg]
                      (doseq [client-id @clients]
                        (browserchannel/send-map client-id {"msg" (str "redis message " msg)}))
-                     (println msg)))
+                     ))
 )
